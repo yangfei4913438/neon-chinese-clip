@@ -1,0 +1,21 @@
+[project]
+name = "neon-chinese-clip"
+version = "0.1.0"
+description = "A FastAPI application for Chinese CLIP model."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "cn-clip>=1.6.0",
+    "colorlog>=6.10.1",
+    "fastapi>=0.121.1",
+    "gunicorn>=23.0.0",
+    "pillow>=12.0.0",
+    "python-multipart>=0.0.20",
+    "torch>=2.9.0",
+    "torchvision>=0.24.0",
+    "transformers>=4.57.1",
+    "uvicorn[standard]>=0.38.0",
+]
+
+[dependency-groups]
+dev = []
