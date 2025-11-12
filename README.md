@@ -60,3 +60,27 @@ http://localhost:7001/redoc
 或者
 
 http://localhost:7001/docs
+
+## 导出镜像
+
+> 导出为 tar.gz 文件, 方便传输部署
+
+```shell
+docker save clip-service:latest | gzip > clip-service.tar.gz
+```
+
+- 发送到远程服务器(rsync大文件更稳定)
+
+```shell
+rsync -avzP clip-service.tar.gz user@deploy-server:/tmp/
+```
+
+## 导入镜像
+
+> 导入 tar.gz 文件
+
+```shell
+gunzip -c clip-service.tar.gz | docker load
+```
+
+其他就是正常的 docker 操作了。
