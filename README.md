@@ -50,7 +50,7 @@ docker build -t clip-service:latest .
 > 启动容器，映射 7001 端口
 
 ```shell
-docker run -d -p 7001:7001 --name clip-service clip-service:latest
+docker run -d -p 7001:7001 --name clip-service --restart=always clip-service:latest
 ```
 
 ## 访问接口文档

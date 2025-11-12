@@ -1,6 +1,6 @@
 [project]
 name = "neon-chinese-clip"
-version = "0.1.0"
+version = "1.0.0"
 description = "A FastAPI application for Chinese CLIP model."
 readme = "README.md"
 requires-python = ">=3.12"
