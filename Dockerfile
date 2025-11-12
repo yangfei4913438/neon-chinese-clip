@@ -18,10 +18,11 @@ deb https://repo.huaweicloud.com/debian-security bookworm-security main contrib 
 EOFB
 
 # 安装系统依赖
-RUN apt-get update && apt-get install -y \
-    git curl wget \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     # 编译相关工具
-    build-essential gcc g++ make
+    build-essential \
+    # 清理缓存，减小构建层体积
+    && rm -rf /var/lib/apt/lists/*
 
 # pip 配置系统加速
 RUN mkdir -p /root/.pip && \
@@ -55,12 +56,6 @@ RUN uv sync --no-dev --frozen
 # 再复制项目代码
 COPY . .
 
-# 确保模型目录存在
-RUN mkdir -p models/pretrained_weights
-
-# 清理缓存
-RUN uv cache clean
-
 # 运行时阶段
 FROM python:3.12.6-slim AS runtime
 
@@ -82,7 +77,6 @@ EOFB
 
 # 安装运行时系统依赖
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
     # JPEG图像支持
     libjpeg62-turbo \
     # PNG图像支持
@@ -106,9 +100,6 @@ WORKDIR /app
 ENV UV_NO_VENV=1
 ENV UV_PROJECT_ENVIRONMENT="/usr/local"
 ENV UV_PYTHON="/usr/local/bin/python"
-
-# 添加常用别名
-RUN echo 'alias ll="ls -la"' >> /root/.bashrc
 
 # 暴露应用端口
 EXPOSE 7001
