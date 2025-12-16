@@ -112,15 +112,14 @@ class ChineseCLIP:
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
 
-        get_clip.cache_clear()
-
         logger.info("Chinese-CLIP 模型实例资源已清理")
 
     def get_available_models(self) -> List[str]:
         """获取可用模型列表"""
         return list(self._model_configs.keys())
 
-    def tokenize(self, texts: List[str]):
+    @classmethod
+    def tokenize(cls, texts: List[str]):
         """文本标记化"""
         # 使用 cn-clip 提供的 tokenize 函数
         return tokenize(texts)

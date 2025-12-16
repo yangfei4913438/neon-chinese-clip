@@ -13,9 +13,8 @@ import torch
 
 from typing import List
 from PIL import Image
-from functools import lru_cache
 
-from core.cn_clip import get_clip
+from core.cn_clip import ChineseCLIP
 
 logger = logging.getLogger(__name__)
 
@@ -23,21 +22,10 @@ logger = logging.getLogger(__name__)
 class ClipVectorService:
     """Chinese-CLIP 多模态向量服务"""
 
-    def __init__(self):
+    def __init__(self, client: ChineseCLIP = None):
         """初始化 Chinese-CLIP 服务实例"""
         # 获取模型实例
-        self._client = None
-
-    async def init(self, model_name: str = None):
-        """ 初始化服务 """
-        if self._client:
-            return
-        # 获取模型实例
-        self._client = get_clip()
-        # 判断是否存在这个模型
-        if model_name:
-            # 切换到指定模型
-            await self._client.switch_model(model_type=model_name)
+        self._client = client
 
     def get_available_models(self) -> List[str]:
         """获取可用模型列表"""
@@ -123,8 +111,3 @@ class ClipVectorService:
             logger.error(f"批量图像向量化失败: {e}")
             raise InternalServerException("批量图像向量化失败")
 
-
-@lru_cache()
-def get_vector_service() -> ClipVectorService:
-    """ 获取向量服务实例（单例） """
-    return ClipVectorService()

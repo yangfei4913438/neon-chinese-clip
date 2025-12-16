@@ -6,8 +6,3 @@
 @File   : __init__.py
 @Desc   : 
 """
-from .base import Response
-
-__all__ = [
-    "Response",
-]
